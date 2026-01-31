@@ -70,9 +70,9 @@ export const createOfferSchema = z.object({
   requirements: z.string().optional(),
   location: z.string().optional(),
   duration: z.string().optional(),
-  startDate: z.string().datetime().optional(),
+  startDate: z.string().optional().or(z.null()),
   salary: z.string().optional(),
-  deadline: z.string().datetime().optional(),
+  deadline: z.string().optional().or(z.null()),
   status: z.enum(['ACTIVE', 'CLOSED', 'DRAFT']).optional(),
 });
 

@@ -37,6 +37,7 @@ const comparePassword = async (password: string, hash: string): Promise<boolean>
 
 // Login controller
 export const login = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log(`POST /api/auth/login - Login triggered for: ${req.body.email}`);
   try {
     const { email, password } = req.body as LoginInput;
 
@@ -223,6 +224,7 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
 
 // Register student (Admin only)
 export const registerStudent = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log(`POST /api/auth/register-student - Register Student triggered for: ${req.body.email}`);
   try {
     const data = req.body as RegisterStudentInput;
     
@@ -269,6 +271,7 @@ export const registerStudent = async (req: AuthRequest, res: Response): Promise<
 
 // Register company (Admin only)
 export const registerCompany = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log(`POST /api/auth/register-company - Register Company triggered for: ${req.body.email}`);
   try {
     const data = req.body as RegisterCompanyInput;
     
@@ -315,6 +318,7 @@ export const registerCompany = async (req: AuthRequest, res: Response): Promise<
 
 // Register admin (Admin only)
 export const registerAdmin = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log(`POST /api/auth/register-admin - Register Admin triggered for: ${req.body.username}`);
   try {
     const data = req.body as RegisterAdminInput;
     
@@ -360,6 +364,7 @@ export const registerAdmin = async (req: AuthRequest, res: Response): Promise<vo
 
 // Change password
 export const changePassword = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log('POST /api/auth/change-password - Change Password triggered');
   try {
     const { userId, role } = req.user!;
     const { currentPassword, newPassword } = req.body;

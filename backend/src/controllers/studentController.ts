@@ -134,6 +134,7 @@ export const getStudentById = async (req: AuthRequest, res: Response): Promise<v
 
 // Update student profile
 export const updateStudent = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log(`PUT /api/students/${req.params.id} - Update Student triggered`);
   try {
     const { id } = req.params;
     const data = req.body as UpdateStudentInput;

@@ -155,6 +155,7 @@ export const getOfferById = async (req: AuthRequest, res: Response): Promise<voi
 
 // Create offer (Company only)
 export const createOffer = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log('POST /api/offers - Create Offer triggered');
   try {
     const data = req.body as CreateOfferInput;
     const { userId } = req.user!;
@@ -199,6 +200,7 @@ export const createOffer = async (req: AuthRequest, res: Response): Promise<void
 
 // Update offer (Company owner or Admin)
 export const updateOffer = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log(`PUT /api/offers/${req.params.id} - Update Offer triggered`);
   try {
     const { id } = req.params;
     const data = req.body as UpdateOfferInput;

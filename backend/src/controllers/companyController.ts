@@ -138,6 +138,7 @@ export const getCompanyById = async (req: AuthRequest, res: Response): Promise<v
 
 // Update company profile
 export const updateCompany = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log(`PUT /api/companies/${req.params.id} - Update Company triggered`);
   try {
     const { id } = req.params;
     const data = req.body as UpdateCompanyInput;
@@ -200,6 +201,7 @@ export const deleteCompany = async (req: AuthRequest, res: Response): Promise<vo
 
 // Approve/Reject company (Admin only)
 export const toggleCompanyApproval = async (req: AuthRequest, res: Response): Promise<void> => {
+  console.log(`PUT /api/companies/${req.params.id}/approval - Toggle Company Approval triggered`);
   try {
     const { id } = req.params;
     const { isApproved } = req.body;
