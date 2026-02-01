@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Administration entity - manages the platform
+model Administration {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("administrations")
+}
+
+// Company entity - partner companies that post offers
+model Company {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  sector      String
+  description String?  @db.Text
+  isApproved  Boolean  @default(false)
+  logoPath    String?
+  website     String?
+  phone       String?
+  address     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  offers Offer[]
+
+  @@map("companies")
+}
+
+// Student entity - students who apply for offers
+model Student {
+  id         Int      @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  email      String   @unique
+  password   String
+  studyLevel String   // e.g., "1st Year", "2nd Year", "3rd Year", "Master 1", "Master 2"
+  groupName  String   // e.g., "GL1", "RT2", "TIC3"
+  cvPath     String?
+  skills     String?  @db.Text // Comma-separated skills
+  phone      String?
+  linkedin   String?
+  github     String?
+  avatarPath String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  applications Application[]
+
+  @@map("students")
+}
+
+// Offer entity - job/internship offers posted by companies
+model Offer {
+  id           Int         @id @default(autoincrement())
+  title        String
+  category     OfferCategory
+  description  String      @db.Text
+  requirements String?     @db.Text
+  location     String?
+  duration     String?     // e.g., "3 months", "6 months"
+  startDate    DateTime?
+  salary       String?
+  status       OfferStatus @default(ACTIVE)
+  postedDate   DateTime    @default(now())
+  deadline     DateTime?
+  updatedAt    DateTime    @updatedAt
+
+  // Relations
+  companyId    Int
+  company      Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  applications Application[]
+
+  @@map("offers")
+}
+
+// Application entity - student applications to offers
+model Application {
+  id              Int               @id @default(autoincrement())
+  applicationDate DateTime          @default(now())
+  status          ApplicationStatus @default(PENDING)
+  coverLetter     String?           @db.Text
+  cvPath          String?           // Override student's default CV if provided
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  offerId   Int
+  offer     Offer   @relation(fields: [offerId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, offerId]) // A student can only apply once per offer
+  @@map("applications")
+}
+
+// Enums
+enum OfferCategory {
+  PFE              // Projet de Fin d'Etudes
+  SUMMER_INTERNSHIP
+  JOB
+}
+
+enum OfferStatus {
+  ACTIVE
+  CLOSED
+  DRAFT
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
