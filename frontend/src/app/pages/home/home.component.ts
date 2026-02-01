@@ -486,7 +486,6 @@ import { ParticlesComponent } from '../../shared/components/particles/particles.
       width: 200px;
       height: 230px;
       background: linear-gradient(135deg, rgba(0, 61, 124, 0.3), rgba(246, 139, 30, 0.3));
-      border: 3px solid var(--secondary-500);
       clip-path: polygon(50% 0%, 100% 15%, 100% 75%, 50% 100%, 0% 75%, 0% 15%);
       display: flex;
       align-items: center;
@@ -495,8 +494,8 @@ import { ParticlesComponent } from '../../shared/components/particles/particles.
     }
 
     .shield-logo {
-      width: 100px;
-      height: 100px;
+      width: fit-content;
+      height: fit-content;
       object-fit: contain;
       animation: float 6s ease-in-out infinite;
     }
